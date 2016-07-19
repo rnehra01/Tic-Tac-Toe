@@ -1,0 +1,71 @@
+<html>
+<head><title>Enjoy Game!</title>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+
+<div id="arena" style="position:absolute;top:10px;left:400px;z-index=-1">
+<img src="Images/bg.jpg" width="600px">
+</div>
+
+<div id="0" style="position:absolute;top:10px;left:400px;"></div>
+<div id="1" style="position:absolute;top:10px;left:600px;"></div>
+<div id="2" style="position:absolute;top:10px;left:800px;"></div>
+<div id="3" style="position:absolute;top:210px;left:400px;"></div>
+<div id="4" style="position:absolute;top:210px;left:600px;"></div>
+<div id="5" style="position:absolute;top:210px;left:800px;"></div>
+<div id="6" style="position:absolute;top:410px;left:400px;"></div>
+<div id="7" style="position:absolute;top:410px;left:600px;"></div>
+<div id="8" style="position:absolute;top:410px;left:800px;"></div>
+
+<script type="text/javascript">
+ var mouseX;
+ var mouseY;
+ var change=-1;
+ var noOfturns=0;
+ var filled=[];
+ for (var i=0; i<9; i++){ filled[i]=0;}
+ document.getElementById("arena").addEventListener("click",clicked,false);
+ 
+ function clicked(e){
+ 
+  mouseX=e.clientX;
+  mouseY=e.clientY;
+  mouseX=parseInt((mouseX-400)/200);
+  mouseY=parseInt((mouseY-10)/200);
+  if (mouseX<=2 && mouseX>=0 && mouseY<=2 && mouseY>=0){
+   var index=mouseX+mouseY*3;
+   if (!filled[index]){
+      change=0-change;
+      noOfturns++;
+      var cross_img=document.createElement('img');cross_img.src='Images/cross.png';cross_img.setAttribute("width","200px");
+      var circle_img=document.createElement('img');circle_img.src='Images/circle.png';circle_img.setAttribute("width","200px");
+      if (change==1) {filled[index]=1;
+                      document.getElementById(String(index)).appendChild(cross_img);}
+      else           {filled[index]=2;
+                      document.getElementById(String(index)).appendChild(circle_img);}
+   }  
+  }
+  var winner=checkWinner();
+  if (winner=="none" && noOfturns==9) {window.alert("Game Over!");window.location.reload(true);}
+  else if (winner=="cross"){ window.alert("Winner is Cross");window.location.reload(true);}
+  else if (winner=="circle"){window.alert("Winner is Circle");window.location.reload(true);}
+ }
+ 
+
+ function checkWinner(){
+  if (filled[0]==filled[1] && filled[1]==filled[2] && filled[1]) {return (filled[1]==1) ? "cross":"circle";}
+  if (filled[0]==filled[3] && filled[3]==filled[6] && filled[3]) {return (filled[3]==1) ? "cross":"circle";}
+  if (filled[2]==filled[5] && filled[5]==filled[8] && filled[5]) {return (filled[5]==1) ? "cross":"circle";}
+  if (filled[6]==filled[7] && filled[7]==filled[8] && filled[7]) {return (filled[7]==1) ? "cross":"circle";}
+  if (filled[0]==filled[4] && filled[4]==filled[8] && filled[4]) {return (filled[4]==1) ? "cross":"circle";}
+  if (filled[2]==filled[4] && filled[4]==filled[6] && filled[4]) {return (filled[4]==1) ? "cross":"circle";}
+  if (filled[1]==filled[4] && filled[4]==filled[7] && filled[4]) {return (filled[4]==1) ? "cross":"circle";}
+  if (filled[3]==filled[4] && filled[4]==filled[5] && filled[4]) {return (filled[4]==1) ? "cross":"circle";}
+  return "none";
+ }
+</script>
+</body>
+</html>
